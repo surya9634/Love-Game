@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do You Love Me?</title>
+    <style>
+        body {
+            background: repeating-linear-gradient(45deg, pink, lime, cyan, yellow);
+            color: magenta;
+            font-size: 20px;
+            font-family: Comic Sans MS, cursive;
+            text-align: center;
+        }
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+        }
+        input, select {
+            padding: 10px;
+            font-size: 18px;
+            border: 3px solid red;
+            background: yellow;
+            color: blue;
+            text-align: center;
+        }
+        .buttons {
+            margin-top: 20px;
+            position: relative;
+        }
+        button {
+            font-size: 24px;
+            padding: 10px 20px;
+            margin: 10px;
+            border: 5px dashed red;
+            cursor: pointer;
+            position: relative;
+        }
+        #yesButton {
+            background: lime;
+        }
+        #noButton {
+            background: red;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border: 5px solid magenta;
+            box-shadow: 5px 5px 20px black;
+            font-size: 24px;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Do You Love Me?</h1>
+        <p>Enter your name first:</p>
+        <input type="text" id="nameInput" placeholder="Your Name">
+        <p>Select your gender:</p>
+        <select id="genderSelect">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+        <div class="buttons">
+            <button id="yesButton">Yes</button>
+            <button id="noButton">No</button>
+        </div>
+    </div>
+    
+    <div id="popup" class="popup"></div>
+    
+    <script>
+        let yesButton = document.getElementById("yesButton");
+        let noButton = document.getElementById("noButton");
+        let genderSelect = document.getElementById("genderSelect");
+
+        document.getElementById("yesButton").addEventListener("click", function() {
+            let name = document.getElementById('nameInput').value;
+            let popup = document.getElementById('popup');
+            if (name.trim() === "") {
+                popup.innerHTML = "Please enter your name first!";
+            } else {
+                popup.innerHTML = `I love you too, ${name}! ❤️`;
+            }
+            popup.style.display = "block";
+        });
+
+        function moveButton(button) {
+            let x = Math.random() * (window.innerWidth - 150);
+            let y = Math.random() * (window.innerHeight - 100);
+            button.style.position = "absolute";
+            button.style.left = `${x}px`;
+            button.style.top = `${y}px`;
+        }
+
+        function updateButtonBehavior() {
+            if (genderSelect.value === "male") {
+                yesButton.onmouseover = function() { moveButton(yesButton); };
+                noButton.onmouseover = null;
+            } else {
+                noButton.onmouseover = function() { moveButton(noButton); };
+                yesButton.onmouseover = null;
+            }
+        }
+
+        // Gender select change event
+        genderSelect.addEventListener("change", updateButtonBehavior);
+
+        // Set initial button behavior based on default gender
+        document.addEventListener("DOMContentLoaded", function() {
+            updateButtonBehavior();
+        });
+
+    </script>
+</body>
+</html>
