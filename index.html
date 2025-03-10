@@ -19,7 +19,7 @@
             transform: translate(-50%, -50%);
             width: 80%;
         }
-        input, select {
+        input {
             padding: 10px;
             font-size: 18px;
             border: 3px solid red;
@@ -37,13 +37,13 @@
             margin: 10px;
             border: 5px dashed red;
             cursor: pointer;
-            position: relative;
         }
         #yesButton {
             background: lime;
         }
         #noButton {
             background: red;
+            position: absolute;
         }
         .popup {
             display: none;
@@ -65,61 +65,33 @@
         <h1>Do You Love Me?</h1>
         <p>Enter your name first:</p>
         <input type="text" id="nameInput" placeholder="Your Name">
-        <p>Select your gender:</p>
-        <select id="genderSelect">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-        </select>
         <div class="buttons">
             <button id="yesButton">Yes</button>
-            <button id="noButton">No</button>
+            <button id="noButton" onmouseover="moveNoButton()">No</button>
         </div>
     </div>
     
     <div id="popup" class="popup"></div>
     
     <script>
-        let yesButton = document.getElementById("yesButton");
-        let noButton = document.getElementById("noButton");
-        let genderSelect = document.getElementById("genderSelect");
-
         document.getElementById("yesButton").addEventListener("click", function() {
             let name = document.getElementById('nameInput').value;
             let popup = document.getElementById('popup');
             if (name.trim() === "") {
                 popup.innerHTML = "Please enter your name first!";
             } else {
-                popup.innerHTML = `I love you too, ${name}! ❤️`;
+                popup.innerHTML = `THANKS, ${name}! ❤️`;
             }
             popup.style.display = "block";
         });
-
-        function moveButton(button) {
-            let x = Math.random() * (window.innerWidth - 150);
-            let y = Math.random() * (window.innerHeight - 100);
-            button.style.position = "absolute";
+        
+        function moveNoButton() {
+            let button = document.getElementById('noButton');
+            let x = Math.random() * (window.innerWidth - 100);
+            let y = Math.random() * (window.innerHeight - 50);
             button.style.left = `${x}px`;
             button.style.top = `${y}px`;
         }
-
-        function updateButtonBehavior() {
-            if (genderSelect.value === "male") {
-                yesButton.onmouseover = function() { moveButton(yesButton); };
-                noButton.onmouseover = null;
-            } else {
-                noButton.onmouseover = function() { moveButton(noButton); };
-                yesButton.onmouseover = null;
-            }
-        }
-
-        // Gender select change event
-        genderSelect.addEventListener("change", updateButtonBehavior);
-
-        // Set initial button behavior based on default gender
-        document.addEventListener("DOMContentLoaded", function() {
-            updateButtonBehavior();
-        });
-
     </script>
 </body>
 </html>
